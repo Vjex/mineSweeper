@@ -39,4 +39,12 @@ public class BottomBar : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(this.mineField.xTotal + 3, 3);
     }
 
+
+    //Method To Quit / Exit The Apllication.
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }

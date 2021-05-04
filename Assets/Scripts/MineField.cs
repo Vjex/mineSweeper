@@ -22,7 +22,19 @@ public class MineField : MonoBehaviour
     //2D Var For Holding all The Tiles created for minefield.
     public Tile[,] tiles;
 
+    //Var That Hold the No Of Mines Left to discover.
+    public int minesLeft = 0;
 
+
+    //Variables Regarding Timer And Reset Button Of The Game in Top Bar.
+    // Timer Script and ResetGameButton Script to Be Assigned At The UI Level That why MAde Public. 
+    public Timer timer;
+
+    public ResetGameButton resetGameButton;
+
+
+    //HighScore Script To set the Hogh Score On Winning A Game.
+    public HighScore highScore; 
 
     //Method To create A New MineFiled (To Start A Game) .
     public void CreateMineField(int xTotal , int yTotal , int amountMines)
@@ -33,9 +45,17 @@ public class MineField : MonoBehaviour
         this.amountOfTilesUnRevealed = xTotal * yTotal;
         //Set Game Started To False On Every New Mine Filed Creation (A SMineField Will Be Only Created Once Before Starting Every New Game.
         this.hasgameStarted = false;
-    
+
+        //Initially Set The MinesLeft To The Total Mines
+        this.minesLeft = amountMines;
+
+
+        //Whenever New Game Start Reset The Timer Along With Set The Reset Button Face to Neutral
+        this.timer.ResetTimer();
+        this.resetGameButton.SetNeutral();
+
         //Now Destroyn=ing previous MineFiled Tils if Created.
-        if(tiles != null)
+        if (tiles != null)
         {
 
             foreach(Tile tile in tiles)
@@ -79,15 +99,55 @@ public class MineField : MonoBehaviour
 
 
     //Method To Be Called When A Players Wins The Game.
+    //Stop The Timer When Win And Set The Rest Btn Fase to Happy.
+
     public void WinGame()
     {
         Debug.Log("Game WIn");
+        this.timer.StopTimer();
+        this.resetGameButton.SetHappy();
+
+
+
+        //Now After Winning reveal All the Mines In The Tile 
+        //Tile script attached to single tile Prefab has these Varibles . 
+        foreach(Tile tile in this.tiles)
+        {
+            if (tile.isMine)
+            {
+                tile.spriteController.SetSecuredMineSprite();
+            }
+        }
+
+
+        //Upadet The High if Required that Is Checked At HighScore Scriptt Just Passing Current time Of the Timer As A Score.
+        this.highScore.UpdateTheHighScore(this.timer.GetCurrentTime());
     }
 
 
     //Method To Be Called When A Players Looses The Game.
+
+    //Stop The Timer When Lose And Set The Rest Btn Fase to Sad.
     public void LoosedGame()
     {
         Debug.Log("Game Lost");
+        this.timer.StopTimer();
+        this.resetGameButton.SetSad();
+
+
+        //If We Loose The Game Reveal All The Mines Along With Disable The Boxcollider of each tile so that it can not Further clickable.
+        foreach (Tile tile in this.tiles)
+        {
+            if (!tile.isMine)
+            {
+                tile.GetComponent<BoxCollider2D>().enabled = false;
+            }
+            else{
+                tile.spriteController.SetMineSprite();
+
+            }
+        }
+
+
     }
 }

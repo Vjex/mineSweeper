@@ -48,6 +48,9 @@ public class ClickMechanics : MonoBehaviour
                 this.spriteController.SetDefaultTileSprite();
 
                 this.tile.isSecured = false;
+
+                //WhenEver Player Unsecures A Tile It meanes MinesLeft Increased.
+                this.mineField.minesLeft++;
             }
             else
             {
@@ -55,6 +58,9 @@ public class ClickMechanics : MonoBehaviour
                 this.spriteController.SetSecuredTileSprite();
 
                 this.tile.isSecured = true;
+
+                //WhenEver Player Secures A Tile It meanes MinesLeft Decreased.
+                this.mineField.minesLeft--;
 
 
             }
@@ -75,6 +81,10 @@ public class ClickMechanics : MonoBehaviour
 
             //Now Create Mine As The Game Not Started 
             this.CreateMines();
+
+
+            //Start The Timer of The Game
+            this.mineField.timer.StartTimer();
         }
 
 

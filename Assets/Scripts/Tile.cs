@@ -18,6 +18,10 @@ public class Tile : MonoBehaviour
     //Var For Click Mechanics Script .
     public ClickMechanics clickMechanics;
 
+
+    //var Of Sprite Controller Inbuilt Unity Class to Change The Sprite of Tile After Winning and Loosing the Game For Revealing all The Mines In Teh Game.
+    public SpriteController spriteController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,10 +29,12 @@ public class Tile : MonoBehaviour
         //Initializing ClickMechanicsScript;
 
         this.clickMechanics = this.GetComponent<ClickMechanics>();
-        
+        //Initializing SpriteController for This Tile;
+        this.spriteController = this.GetComponent<SpriteController>();
+
     }
 
-    
+
     public static Tile CreateNewTile(int x , int y)
     {
         

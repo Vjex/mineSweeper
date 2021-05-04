@@ -11,7 +11,7 @@ public class DifficultyButtons : MonoBehaviour
 
     //var to Check In Which Currrent Difficulty level game is (By Default  == "EASEY";
 
-    string difficultyLevel = "EASY";
+    public string difficultyLevel = "EASY";
 
     void Start()
     {
